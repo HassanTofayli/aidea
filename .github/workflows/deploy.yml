@@ -43,7 +43,7 @@ jobs:
     - name: 🔧 Setup environment variables
       run: |
         echo "REACT_APP_SUPABASE_URL=https://vedqrqvktuqlcvijsyvp.supabase.co" >> .env.production
-        echo "REACT_APP_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlZHFycXZrdHVxbGN2aWpzeXZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgzNjE0NTEsImV4cCI6MjA3MzkzNzQ1MX0.AzDUYe8zTuNRqqCQBf7PnW1ltJ3BX26EVLnvuYnjll4" >> .env.production
+        echo "REACT_APP_SUPABASE_ANON_KEY=${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}" >> .env.production
         echo "REACT_APP_SUPABASE_SERVICE_ROLE_KEY=placeholder-service-key" >> .env.production
         echo "REACT_APP_WHATSAPP_NUMBER=placeholder-number" >> .env.production
         echo "REACT_APP_WHATSAPP_MESSAGE=طلب وصول" >> .env.production
@@ -62,7 +62,7 @@ jobs:
         CI: false
         GENERATE_SOURCEMAP: false
         REACT_APP_SUPABASE_URL: https://vedqrqvktuqlcvijsyvp.supabase.co
-        REACT_APP_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlZHFycXZrdHVxbGN2aWpzeXZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgzNjE0NTEsImV4cCI6MjA3MzkzNzQ1MX0.AzDUYe8zTuNRqqCQBf7PnW1ltJ3BX26EVLnvuYnjll4
+        REACT_APP_SUPABASE_ANON_KEY: ${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}
         REACT_APP_SUPABASE_SERVICE_ROLE_KEY: placeholder-service-key
         REACT_APP_WHATSAPP_NUMBER: placeholder-number
         REACT_APP_WHATSAPP_MESSAGE: طلب وصول
