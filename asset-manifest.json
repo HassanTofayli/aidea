@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/aidea/static/css/main.30dd7ee2.css",
+    "main.js": "/aidea/static/js/main.373ccdc8.js",
+    "static/js/453.3e2e0e82.chunk.js": "/aidea/static/js/453.3e2e0e82.chunk.js",
+    "index.html": "/aidea/index.html",
+    "main.30dd7ee2.css.map": "/aidea/static/css/main.30dd7ee2.css.map",
+    "main.373ccdc8.js.map": "/aidea/static/js/main.373ccdc8.js.map",
+    "453.3e2e0e82.chunk.js.map": "/aidea/static/js/453.3e2e0e82.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.30dd7ee2.css",
+    "static/js/main.373ccdc8.js"
+  ]
+}
