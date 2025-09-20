@@ -1,0 +1,94 @@
+name: Deploy AIDEA to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+    - name: 🚀 Checkout repository
+      uses: actions/checkout@v4
+
+    - name: 📦 Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: 🧰 Install dependencies
+      run: npm ci
+
+    - name: 🔧 Setup environment variables
+      run: |
+        echo "REACT_APP_SUPABASE_URL=${{ secrets.REACT_APP_SUPABASE_URL }}" >> .env.production
+        echo "REACT_APP_SUPABASE_ANON_KEY=${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}" >> .env.production
+        echo "REACT_APP_SUPABASE_SERVICE_ROLE_KEY=${{ secrets.REACT_APP_SUPABASE_SERVICE_ROLE_KEY }}" >> .env.production
+        echo "REACT_APP_WHATSAPP_NUMBER=${{ secrets.REACT_APP_WHATSAPP_NUMBER }}" >> .env.production
+        echo "REACT_APP_WHATSAPP_MESSAGE=${{ secrets.REACT_APP_WHATSAPP_MESSAGE }}" >> .env.production
+
+    - name: 🔍 Run TypeScript type check
+      run: npx tsc --noEmit
+
+    - name: 🧪 Run tests
+      run: npm test -- --coverage --ci --watchAll=false
+
+    - name: 🏗️ Build application
+      run: npm run build
+      env:
+        CI: false
+        GENERATE_SOURCEMAP: false
+        REACT_APP_SUPABASE_URL: ${{ secrets.REACT_APP_SUPABASE_URL }}
+        REACT_APP_SUPABASE_ANON_KEY: ${{ secrets.REACT_APP_SUPABASE_ANON_KEY }}
+        REACT_APP_SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.REACT_APP_SUPABASE_SERVICE_ROLE_KEY }}
+        REACT_APP_WHATSAPP_NUMBER: ${{ secrets.REACT_APP_WHATSAPP_NUMBER }}
+        REACT_APP_WHATSAPP_MESSAGE: ${{ secrets.REACT_APP_WHATSAPP_MESSAGE }}
+
+    - name: 📦 Setup Pages
+      uses: actions/configure-pages@v4
+
+    - name: 🗂️ Upload build artifacts
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./build
+
+  # Deploy job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: 🚀 Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+
+    - name: 🎉 Deployment completed
+      run: |
+        echo "🎉 AIDEA has been successfully deployed!"
+        echo "🌐 Live URL: ${{ steps.deployment.outputs.page_url }}"
+        echo "📊 Build completed at: $(date)"

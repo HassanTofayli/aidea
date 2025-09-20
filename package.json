@@ -1,7 +1,8 @@
 {
-  "name": "private-links-app",
-  "version": "0.1.0",
+  "name": "aidea",
+  "version": "1.0.0",
   "private": true,
+  "homepage": "https://HassanTofayli.github.io/aidea",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
@@ -31,7 +32,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +55,7 @@
     ]
   },
   "devDependencies": {
-    "@types/stylis": "^4.2.7"
+    "@types/stylis": "^4.2.7",
+    "gh-pages": "^6.1.1"
   }
 }
